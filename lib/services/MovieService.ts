@@ -1,7 +1,7 @@
 import axios from 'axios';
+import IMovieService from './IMovieService';
 
-class Movie {
-  constructor() { }
+class MovieService implements IMovieService {
   async search(query: string) {
     const result = await axios.get(`https://www.omdbapi.com/?s=${query}&apikey=faf7e5bb&s`);
     return result.data;
@@ -13,4 +13,4 @@ class Movie {
   }
 }
 
-export default Movie;
+export default MovieService;
