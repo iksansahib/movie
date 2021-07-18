@@ -1,0 +1,23 @@
+[
+   {
+      "name": "default",
+      "type": "mysql",
+      "host": "localhost",
+      "username": "root",
+      "password": "dummy",
+      "database": "movie",
+      "port": 3306,
+      "synchronize": false,
+      "logging": true,
+      "entities": [
+         "build/lib/database/entity/*.js"
+      ],
+      "migrations": [
+         "build/lib/database/migration/**/*.js"
+      ],
+      "cli": {
+         "entitiesDir": "lib/database/entity",
+         "migrationsDir": "lib/database/migration"
+      }
+   }
+]

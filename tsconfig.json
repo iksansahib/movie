@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es6",
     "module": "commonjs",
     "rootDir": "./",
     "outDir": "./build",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "inlineSourceMap": true
   },
   "exclude": [
     "__tests__"
+  ],
+  "include": [
+    "./lib/**/*"
   ]
 }
