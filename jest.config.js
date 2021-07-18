@@ -12,4 +12,5 @@ module.exports = {
   "modulePaths": [
     "<rootDir>"
   ],
+  "restoreMocks": true,
 }
