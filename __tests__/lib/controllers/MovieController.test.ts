@@ -1,7 +1,11 @@
 import MovieController from "../../../lib/controllers/MovieController";
+import IMovieLogService from "../../../lib/services/IMovieLogService";
 import IMovieService from "../../../lib/services/IMovieService";
 import { BadRequestException } from "../../../lib/utils/exceptions";
 
+const movieLogService: IMovieLogService = {
+  insert: () => { }
+};
 describe("Test the search method", () => {
   test("It should throw bad reqeust when query empty", async () => {
     const movieService: IMovieService = {
@@ -12,7 +16,8 @@ describe("Test the search method", () => {
         return {};
       }
     }
-    const movieController = new MovieController(movieService);
+
+    const movieController = new MovieController(movieService, movieLogService);
     await movieController.search("").catch(e => {
       expect(e).toEqual(new BadRequestException("query is mandatory"))
     });
@@ -28,7 +33,7 @@ describe("Test the search method", () => {
         return {};
       }
     }
-    const movieController = new MovieController(movieService);
+    const movieController = new MovieController(movieService, movieLogService);
     const result = await movieController.search("abc");
     expect(result).toEqual({});
 
@@ -43,7 +48,7 @@ describe("Test the search method", () => {
         throw new Error("Error")
       }
     }
-    const movieController = new MovieController(movieService);
+    const movieController = new MovieController(movieService, movieLogService);
     movieController.search("abc").catch(e => expect(e).toEqual(new Error("Error")));
 
   });
@@ -59,7 +64,7 @@ describe("Test the detail method", () => {
         return {};
       }
     }
-    const movieController = new MovieController(movieService);
+    const movieController = new MovieController(movieService, movieLogService);
     await movieController.detail("").catch(e => {
       expect(e).toEqual(new BadRequestException("id is mandatory"))
     });
@@ -74,7 +79,7 @@ describe("Test the detail method", () => {
         return {};
       }
     }
-    const movieController = new MovieController(movieService);
+    const movieController = new MovieController(movieService, movieLogService);
     const result = await movieController.detail("abc");
     expect(result).toEqual({});
 
@@ -89,7 +94,7 @@ describe("Test the detail method", () => {
         throw new Error("Error")
       }
     }
-    const movieController = new MovieController(movieService);
+    const movieController = new MovieController(movieService, movieLogService);
     movieController.detail("abc").catch(e => expect(e).toEqual(new Error("Error")));
 
   });

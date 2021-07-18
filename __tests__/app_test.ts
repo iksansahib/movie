@@ -1,18 +1,12 @@
 import request from "supertest";
 import app from "../app";
 import MovieController from "../lib/controllers/MovieController";
-import { BadRequestException } from "../lib/utils/exceptions";
-// const MovieController = jest.fn().mockResolvedValueOnce(() => {
-//   return {
-//     search: {}
-//   }
-// });
+import { BadRequestException, HttpException } from "../lib/utils/exceptions";
 
 jest.mock('./../lib/controllers/MovieController', () => jest.fn());
-const MockedMovieController = MovieController as unknown as jest.Mock;
 describe("Test the root path (200 status code)", () => {
   test("It should response the GET /search with query method", done => {
-    MockedMovieController.mockImplementationOnce(() => {
+    (MovieController as jest.Mock).mockImplementationOnce(() => {
       return {
         search: jest.fn().mockResolvedValueOnce({})
       }
@@ -26,7 +20,7 @@ describe("Test the root path (200 status code)", () => {
   });
 
   test("It should response the GET /detail with id method", done => {
-    (MockedMovieController as jest.Mock).mockImplementationOnce(() => {
+    (MovieController as jest.Mock).mockImplementationOnce(() => {
       return {
         detail: jest.fn().mockResolvedValueOnce({})
       }
@@ -41,7 +35,7 @@ describe("Test the root path (200 status code)", () => {
 
 
   test("It should failed when GET /search without query", done => {
-    (MockedMovieController as jest.Mock).mockImplementation(() => {
+    (MovieController as jest.Mock).mockImplementation(() => {
       return {
         search: jest.fn().mockRejectedValueOnce(new BadRequestException())
       }
@@ -55,7 +49,7 @@ describe("Test the root path (200 status code)", () => {
   });
 
   test("It should failed when GET /detail without id", done => {
-    MockedMovieController.mockImplementation(() => {
+    (MovieController as jest.Mock).mockImplementation(() => {
       return {
         detail: jest.fn().mockRejectedValueOnce(new BadRequestException())
       }

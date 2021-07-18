@@ -1,12 +1,14 @@
 import express from 'express';
 import MovieController from './lib/controllers/MovieController';
+import MovieLogService from './lib/services/MovieLogService';
 import MovieService from './lib/services/MovieService';
+import errorHandling from './lib/utils/errorHandling';
 import { BadRequestException, HttpException } from './lib/utils/exceptions';
 
 const app = express();
 app.get('/search', async (req, res) => {
-  const movie = new MovieController(new MovieService);
   try {
+    const movie = new MovieController(new MovieService, new MovieLogService);
     const result = await movie.search(req.query['query'] as string ?? "");
     res.send(result);
   } catch (e: any) {
@@ -16,8 +18,8 @@ app.get('/search', async (req, res) => {
 });
 
 app.get('/detail', async (req, res) => {
-  const movie = new MovieController(new MovieService);
   try {
+    const movie = new MovieController(new MovieService, new MovieLogService);
     const result = await movie.detail(req.query['id'] as string);
     res.send(result);
   } catch (e: any) {
@@ -27,18 +29,3 @@ app.get('/detail', async (req, res) => {
 });
 
 export default app;
-
-function errorHandling(e: any) {
-  // TODO: need to change this to advance logger package
-  if (process.env.NODE_ENV != 'test') {
-    console.log(e);
-  }
-  switch (e.constructor) {
-    case BadRequestException:
-      return { statusCode: 400, message: e.message };
-    case HttpException:
-      return { statusCode: 500, message: e.message };
-    default:
-      return { statusCode: 500, message: e.message };
-  }
-}
